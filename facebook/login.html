@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Infinity - Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-primary);
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, transparent 20%, rgba(0, 0, 0, 0.2) 100%);
+            animation: pulse 15s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.3; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+        }
+
+        .login-box {
+            background: var(--card-color);
+            padding: 40px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1;
+        }
+
+        .dark-mode .login-box {
+            background: var(--dark-card);
+            border-color: var(--dark-border);
+        }
+
+        .form-container {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h1 {
+            font-size: 2.5rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .dark-mode .login-header h1 {
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .login-header p {
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        .dark-mode .login-header p {
+            color: var(--dark-text);
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .form-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-color);
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .form-group i {
+            color: var(--dark-text);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            background: var(--background-color);
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .dark-mode .form-input {
+            background: var(--dark-bg);
+            color: var(--dark-text);
+            border-color: var(--dark-border);
+        }
+
+        .form-input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            background: var(--card-color);
+        }
+
+        .dark-mode .form-input:focus {
+            border-color: var(--secondary-color);
+            background: var(--dark-card);
+        }
+
+        .auth-button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: var(--gradient-primary);
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        .auth-button:hover::before {
+            left: 100%;
+        }
+
+        .auth-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 15px 0;
+            color: var(--text-color);
+        }
+
+        .dark-mode .remember-me {
+            color: var(--dark-text);
+        }
+
+        .toggle-theme {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 100;
+            padding: 10px;
+            border-radius: 50%;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .toggle-theme:hover {
+            transform: rotate(30deg);
+        }
+
+        .social-login {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: var(--background-color);
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .dark-mode .social-button {
+            background: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        .social-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .error-message {
+            color: #f44336;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .forgot-password {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .forgot-password:hover {
+            opacity: 0.8;
+        }
+
+        .register-link {
+            margin-top: 30px;
+            text-align: center;
+            color: var(--text-color);
+        }
+
+        .register-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.3s ease;
+        }
+
+        .register-link a:hover {
+            opacity: 0.8;
+        }
+
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .notification {
+            padding: 15px 25px;
+            border-radius: 10px;
+            background: var(--card-color);
+            color: var(--text-color);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 10px;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            border-left: 4px solid #4CAF50;
+        }
+
+        .notification.error {
+            border-left: 4px solid #f44336;
+        }
+
+        .notification.info {
+            border-left: 4px solid #2196F3;
+        }
+
+        .notification i {
+            font-size: 1.2rem;
+        }
+
+        .notification.success i { color: #4CAF50; }
+        .notification.error i { color: #f44336; }
+        .notification.info i { color: #2196F3; }
+
+        @media (max-width: 480px) {
+            .login-box {
+                padding: 30px 20px;
+            }
+
+            .login-header h1 {
+                font-size: 2rem;
+            }
+
+            .social-button {
+                width: 45px;
+                height: 45px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="toggle-theme" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+    
+    <div class="login-container">
+        <div class="login-box">
+            <div class="form-container" id="loginForm">
+                <div class="login-header">
+                    <h1>Nexus Infinity</h1>
+                    <p>Connect, Share, Discover</p>
+                </div>
+                
+                <form class="auth-form" id="loginFormElement">
+                    <div class="form-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" class="form-input" name="email" placeholder="Email" required>
+                        <div class="error-message"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" class="form-input" name="password" placeholder="Password" required>
+                        <div class="error-message"></div>
+                    </div>
+                    
+                    <div class="remember-forgot">
+                        <label class="remember-me">
+                            <input type="checkbox" name="rememberMe">
+                            <span>Remember me</span>
+                        </label>
+                        <a href="#" class="forgot-password" id="forgotPasswordLink">Forgot Password?</a>
+                    </div>
+                    
+                    <button type="submit" class="auth-button">
+                        <span>Login</span>
+                        <div class="spinner"></div>
+                    </button>
+
+                    <div class="social-login">
+                        <button type="button" class="social-button google" data-provider="google">
+                            <i class="fab fa-google"></i>
+                            Google
+                        </button>
+                        <button type="button" class="social-button facebook" data-provider="facebook">
+                            <i class="fab fa-facebook"></i>
+                            Facebook
+                        </button>
+                        <button type="button" class="social-button twitter" data-provider="twitter">
+                            <i class="fab fa-twitter"></i>
+                            Twitter
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="register-link">
+                    <p>Don't have an account? <a href="#" id="registerLink">Sign up</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { auth, notifications, FormValidator } from './js/auth.js';
+
+        class LoginPage {
+            constructor() {
+                this.initTheme();
+                this.form = document.getElementById('loginFormElement');
+                this.registerLink = document.getElementById('registerLink');
+                this.forgotPasswordLink = document.getElementById('forgotPasswordLink');
+                this.socialButtons = document.querySelectorAll('.social-button');
+                
+                this.setupEventListeners();
+                this.checkAuthStatus();
+            }
+
+            initTheme() {
+                const isDarkMode = localStorage.getItem('darkMode') === 'true';
+                if (isDarkMode) {
+                    document.body.classList.add('dark-mode');
+                    document.querySelector('#themeToggle i').classList.replace('fa-moon', 'fa-sun');
+                }
+            }
+
+            setupEventListeners() {
+                document.getElementById('themeToggle').addEventListener('click', () => {
+                    document.body.classList.toggle('dark-mode');
+                    const isDark = document.body.classList.contains('dark-mode');
+                    localStorage.setItem('darkMode', isDark);
+                    const icon = document.querySelector('#themeToggle i');
+                    icon.classList.replace(isDark ? 'fa-moon' : 'fa-sun', isDark ? 'fa-sun' : 'fa-moon');
+                });
+
+                this.form.addEventListener('submit', (e) => this.handleLogin(e));
+                this.registerLink.addEventListener('click', (e) => this.handleRegisterClick(e));
+                this.forgotPasswordLink.addEventListener('click', (e) => this.handleForgotPassword(e));
+                this.socialButtons.forEach(btn => {
+                    btn.addEventListener('click', (e) => this.handleSocialLogin(e));
+                });
+            }
+
+            async checkAuthStatus() {
+                if (auth.isAuthenticated()) {
+                    window.location.href = 'facebok.html';
+                }
+            }
+
+            async handleLogin(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(e.target);
+                const loginData = {
+                    email: formData.get('email'),
+                    password: formData.get('password'),
+                    rememberMe: formData.get('rememberMe') === 'on'
+                };
+
+                const validation = FormValidator.validateForm(loginData);
+                
+                if (!validation.isValid) {
+                    this.showFormErrors(validation.errors);
+                    return;
+                }
+
+                this.setLoading(true);
+
+                try {
+                    await auth.login(loginData.email, loginData.password, loginData.rememberMe);
+                    notifications.show('Login successful! Redirecting...', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'facebok.html';
+                    }, 1500);
+                } catch (error) {
+                    notifications.show(error.message || 'Login failed. Please try again.', 'error');
+                } finally {
+                    this.setLoading(false);
+                }
+            }
+
+            showFormErrors(errors) {
+                Object.entries(errors).forEach(([field, message]) => {
+                    const input = this.form.querySelector(`[name="${field}"]`);
+                    const errorDiv = input.nextElementSibling;
+                    
+                    input.classList.add('error');
+                    errorDiv.textContent = message;
+                    errorDiv.classList.add('show');
+
+                    input.addEventListener('input', () => {
+                        input.classList.remove('error');
+                        errorDiv.classList.remove('show');
+                    }, { once: true });
+                });
+            }
+
+            setLoading(loading) {
+                const button = this.form.querySelector('.auth-button');
+                button.disabled = loading;
+                button.classList.toggle('loading', loading);
+            }
+
+            async handleSocialLogin(e) {
+                const provider = e.currentTarget.dataset.provider;
+                notifications.show(`${provider} login coming soon!`, 'info');
+            }
+
+            handleRegisterClick(e) {
+                e.preventDefault();
+                notifications.show('Registration page coming soon!', 'info');
+            }
+
+            async handleForgotPassword(e) {
+                e.preventDefault();
+                const email = prompt('Please enter your email address:');
+                
+                if (email) {
+                    if (!FormValidator.validateEmail(email)) {
+                        notifications.show('Please enter a valid email address', 'error');
+                        return;
+                    }
+
+                    try {
+                        await auth.resetPassword(email);
+                        notifications.show('Password reset instructions sent to your email', 'success');
+                    } catch (error) {
+                        notifications.show(error.message || 'Password reset failed. Please try again.', 'error');
+                    }
+                }
+            }
+        }
+
+        // Initialize login page
+        document.addEventListener('DOMContentLoaded', () => {
+            new LoginPage();
+        });
+    </script>
+</body>
+</html>

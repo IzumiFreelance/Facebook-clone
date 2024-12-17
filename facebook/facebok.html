@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Infinity - Your Ultimate Social Hub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #3b5998;
+            color: white;
+            padding: 10px;
+        }
+        .navbar-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+        .nav-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            margin-left: 20px;
+        }
+        .nav-links a i {
+            margin-right: 5px;
+        }
+        .main-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 20px;
+        }
+        .content-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .nav-tab {
+            background-color: #f0f2f5;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+        }
+        .nav-tab.active {
+            background-color: white;
+            border-bottom: 2px solid #3b5998;
+        }
+        .stories-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 10px;
+        }
+        .story-card {
+            width: 100%;
+            height: 150px;
+            border-radius: 10px;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .story-card img {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+        .story-info {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+        }
+        .reels-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .reel-card {
+            width: 200px;
+            height: 300px;
+            margin: 10px;
+            border-radius: 10px;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .reel-video-container {
+            width: 100%;
+            height: 150px;
+            border-radius: 10px 10px 0 0;
+        }
+        .reel-overlay {
+            padding: 10px;
+        }
+        .reel-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+        }
+        .reel-action {
+            background-color: #3b5998;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .explore-section {
+            padding: 20px;
+        }
+        .explore-filters {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .filter-btn {
+            background-color: #f0f2f5;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+        }
+        .filter-btn.active {
+            background-color: white;
+            border-bottom: 2px solid #3b5998;
+        }
+        .explore-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 10px;
+        }
+        .explore-item {
+            width: 100%;
+            height: 150px;
+            border-radius: 10px;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .explore-item img {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .explore-item:hover img {
+            transform: scale(1.05);
+        }
+        .explore-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .explore-item:hover .explore-overlay {
+            opacity: 1;
+        }
+        .explore-overlay i {
+            margin: 0 5px;
+        }
+        .quick-access-bar {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .action-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #4267B2;
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .action-btn:hover {
+            transform: scale(1.1);
+            background-color: #365899;
+        }
+        .creation-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .creation-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .create-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #f0f2f5;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .create-option:hover {
+            background-color: #e4e6eb;
+        }
+        .create-option i {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #4267B2;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .story-card {
+            animation: pulse 2s infinite;
+        }
+        .reel-card video:hover {
+            transform: scale(1.05);
+        }
+        
+        .explore-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+        .quick-access-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+        .action-btn {
+            background-color: #3b5998;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .creation-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .creation-modal.active {
+            display: block;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .close-modal {
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .creation-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+        .create-option {
+            background-color: #f0f2f5;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .dark-mode {
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+        
+        .voice-chat-room {
+            background: #2c2f33;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .thread-container {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .spaces-container {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .live-stream-container {
+            background: #000000;
+            border-radius: 15px;
+            color: white;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .gaming-section {
+            background: #7289da;
+            color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .marketplace {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            padding: 15px;
+        }
+
+        .notification-badge {
+            position: absolute;
+            background: #ff4444;
+            color: white;
+            border-radius: 50%;
+            padding: 4px 8px;
+            font-size: 12px;
+            top: -5px;
+            right: -5px;
+        }
+
+        .emoji-picker {
+            position: absolute;
+            bottom: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .gif-selector {
+            max-height: 300px;
+            overflow-y: auto;
+            background: white;
+            border-radius: 8px;
+            padding: 10px;
+        }
+        
+        .reel-card video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .reel-card video:hover {
+            transform: scale(1.05);
+        }
+        
+        .explore-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Enhanced Navbar -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="#" class="logo">Nexus Infinity</a>
+            <div class="nav-links">
+                <a href="#"><i class="fas fa-home"></i> Home</a>
+                <a href="#"><i class="fas fa-user-friends"></i> Network</a>
+                <a href="#"><i class="fas fa-tv"></i> Watch</a>
+                <a href="#"><i class="fas fa-store"></i> Marketplace</a>
+                <a href="#"><i class="fas fa-gamepad"></i> Gaming</a>
+                <a href="#"><i class="fas fa-microphone"></i> Voice Rooms</a>
+                <a href="#"><i class="fas fa-hashtag"></i> Trending</a>
+            </div>
+            <div class="user-controls">
+                <button class="theme-toggle"><i class="fas fa-moon"></i></button>
+                <button class="notifications"><i class="fas fa-bell"></i></button>
+                <button class="messages"><i class="fas fa-comment"></i></button>
+                <div class="user-profile">
+                    <img src="avatar.jpg" alt="Profile" class="avatar">
+                    <span class="username">User</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Left Sidebar -->
+        <div class="sidebar left-sidebar">
+            <div class="quick-access">
+                <a href="#" class="quick-link"><i class="fas fa-user"></i> Profile</a>
+                <a href="#" class="quick-link"><i class="fas fa-bookmark"></i> Saved</a>
+                <a href="#" class="quick-link"><i class="fas fa-users"></i> Groups</a>
+                <a href="#" class="quick-link"><i class="fas fa-calendar"></i> Events</a>
+                <a href="#" class="quick-link"><i class="fas fa-chart-line"></i> Analytics</a>
+            </div>
+            
+            <div class="spaces-section">
+                <h3>Active Spaces</h3>
+                <div class="voice-chat-room">
+                    <i class="fas fa-microphone"></i>
+                    <span>Gaming Lounge</span>
+                    <span class="participant-count">24 active</span>
+                </div>
+                <div class="voice-chat-room">
+                    <i class="fas fa-music"></i>
+                    <span>Music Club</span>
+                    <span class="participant-count">12 active</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center Content -->
+        <div class="center-content">
+            <!-- Story/Reels Section -->
+            
+            <!-- Create Post -->
+            <div class="create-post">
+                <div class="post-input">
+                    <img src="avatar.jpg" alt="User" class="user-avatar">
+                    <input type="text" placeholder="What's on your mind?">
+                </div>
+                <div class="post-actions">
+                    <button><i class="fas fa-video"></i> Live</button>
+                    <button><i class="fas fa-images"></i> Photo/Video</button>
+                    <button><i class="fas fa-smile"></i> Feeling/Activity</button>
+                    <button><i class="fas fa-poll"></i> Poll</button>
+                </div>
+            </div>
+
+            <!-- Feed -->
+            <div class="feed">
+                <!-- Feed filters -->
+                <div class="feed-filters">
+                    <button class="active">For You</button>
+                    <button>Following</button>
+                    <button>Trending</button>
+                </div>
+                
+                <!-- Posts will be dynamically loaded here -->
+            </div>
+        </div>
+
+        <!-- Right Sidebar -->
+        <div class="sidebar right-sidebar">
+            <!-- Active Contacts -->
+            <div class="contacts-section">
+                <h3>Contacts</h3>
+                <div class="contact-list">
+                    <!-- Contacts will be dynamically loaded -->
+                </div>
+            </div>
+
+            <!-- Trending Topics -->
+            <div class="trending-section">
+                <h3>Trending Now</h3>
+                <div class="trending-topics">
+                    <!-- Topics will be dynamically loaded -->
+                </div>
+            </div>
+
+            <!-- Suggested Communities -->
+            <div class="communities-section">
+                <h3>Suggested Communities</h3>
+                <div class="community-list">
+                    <!-- Communities will be dynamically loaded -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Access Bar -->
+    <div class="quick-access-bar">
+        <button class="action-btn" title="Create Post"><i class="fas fa-plus"></i></button>
+        <button class="action-btn" title="Start Stream"><i class="fas fa-video"></i></button>
+        <button class="action-btn" title="New Story"><i class="fas fa-camera"></i></button>
+        <button class="action-btn" title="Messages"><i class="fas fa-message"></i></button>
+        <button class="action-btn" title="Voice Chat"><i class="fas fa-microphone"></i></button>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal create-post-modal" style="display: none;">
+        <!-- Create post modal content -->
+    </div>
+
+    <div class="modal voice-chat-modal" style="display: none;">
+        <!-- Voice chat modal content -->
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
